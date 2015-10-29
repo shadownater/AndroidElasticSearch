@@ -118,7 +118,7 @@ public class ESMovieManager {
 			throw new RuntimeException(e);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-		}
+		} //all above is building he command to search the server
 		
 		/**
 		 * Parses the response of a search
@@ -142,7 +142,7 @@ public class ESMovieManager {
 			throw new RuntimeException(e);
 		}
 
-
+		//add movie hits o our results, notify the observers to update
 		for (SearchHit<Movie> hit : esResponse.getHits().getHits()) {
 			result.add(hit.getSource());
 		}

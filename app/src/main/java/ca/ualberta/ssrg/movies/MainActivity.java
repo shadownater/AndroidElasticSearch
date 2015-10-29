@@ -9,6 +9,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import ca.ualberta.ssrg.androidelasticsearch.R;
@@ -20,6 +22,8 @@ public class MainActivity extends Activity {
 	private ArrayAdapter<Movie> moviesViewAdapter;
 	private ESMovieManager movieManager;
 	private MoviesController moviesController;
+	private Button searchButton;
+	private EditText searchText;
 
 	private Context mContext = this;
 
@@ -29,6 +33,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		movieList = (ListView) findViewById(R.id.movieList);
+		searchButton = (Button) findViewById(R.id.button1);
+		searchText = (EditText) findViewById(R.id.editText1);
 	}
 
 	@Override
@@ -65,13 +71,30 @@ public class MainActivity extends Activity {
 				return true;
 			}
 		});
+
+		//button to search a query
+		searchButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				//MY CODE HERE WOWIE
+				if(searchText.getText().toString().equals("")){
+					Toast.makeText(getApplicationContext(), "Must type a search query", Toast.LENGTH_SHORT).show();
+				}else {
+					SearchThread myThread = new SearchThread(searchText.getText().toString());
+					myThread.start(); //dies on its own
+				}
+			}
+		});
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		
-		
+		// you cannot access the network from the gui thread
+		// so, lt us create another thread to d that work,
+		// if we try to use the gui thread -- the gui will stop and wait
+
 		SearchThread thread = new SearchThread("*");
 
 		thread.start();
