@@ -124,7 +124,7 @@ public class MainActivity extends Activity {
 		movies.clear();
 
 		// TODO: Extract search query from text view
-		
+		//i wrote mine elsewhere, sorry
 		// TODO: Run the search thread
 		
 	}
